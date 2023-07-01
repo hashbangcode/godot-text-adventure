@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://cifdeo1rvm0cm"]
+
+[ext_resource type="Script" path="res://control.gd" id="1_8eak6"]
+[ext_resource type="Script" path="res://LineEdit.gd" id="2_8hy2q"]
+[ext_resource type="FontFile" uid="uid://codb53revgxch" path="res://font/09809_COURIER.ttf" id="2_i2cdd"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_albfg"]
+content_margin_left = 10.0
+grow_begin = 10.0
+grow_end = 0.0
+thickness = 0
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8eak6")
+
+[node name="Background" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+layout_mode = 2
+color = Color(0.0196078, 0.12549, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Rows" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="GameText" type="RichTextLabel" parent="Background/MarginContainer/Rows"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0.768627, 0.168627, 1)
+theme_override_fonts/normal_font = ExtResource("2_i2cdd")
+theme_override_font_sizes/normal_font_size = 20
+scroll_following = true
+
+[node name="PanelContainer" type="HBoxContainer" parent="Background/MarginContainer/Rows"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/MarginContainer/Rows/PanelContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_i2cdd")
+text = "> "
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="LineEdit" type="LineEdit" parent="Background/MarginContainer/Rows/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/caret_width = 7
+theme_override_fonts/font = ExtResource("2_i2cdd")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxLine_albfg")
+theme_override_styles/focus = SubResource("StyleBoxLine_albfg")
+max_length = 50
+caret_blink = true
+script = ExtResource("2_8hy2q")
+
+[connection signal="text_submitted" from="Background/MarginContainer/Rows/PanelContainer/LineEdit" to="Background/MarginContainer/Rows/PanelContainer/LineEdit" method="_on_text_submitted"]
