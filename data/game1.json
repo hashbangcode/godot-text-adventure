@@ -1,10 +1,20 @@
 {
 	"room1": {
 		"intro" : "You are in a room with a fireplace with a roaring dire and a old oak table. It is otherwise empty.",
+		"items" : {
+			"key123" : {
+				"description" : "You see a key on the oak table.",
+				"type" : "key",
+				"opens" : "north",
+				"name" : "key"
+			}
+		},
 		"exits" : {
 			"north" : {
 				"description" : "Another room to the north.",
-				"destination" : "room2"
+				"destination" : "room2",
+				"locked" : true,
+				"key" : "key123"
 			}
 		}
 	},

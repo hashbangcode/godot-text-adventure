@@ -27,15 +27,13 @@ func _on_text_submitted(new_text):
 	set_text('')
 
 	# parse text
-
 	var instruction = text_parser.parse(new_text)
 
 	# send to game data
 	var output_text = ''
 	output_text += " > " + new_text + "\n\n"
-	output_text += game_data_processor.process_action(instruction)
+	output_text += game_data_processor.process_action(instruction, text_parser.get_object())
 	output_text += "\n"
 
 	# pass output to the game text area
 	gameText.append_text(output_text)
-

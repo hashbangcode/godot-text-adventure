@@ -4,12 +4,12 @@ var InstructionSet = load("res://src/InstructionSet.gd")
 
 var rooms
 var currentRoom = null
-var instructionSet
+var inventory = {}
 
 func _init():
 	rooms = loadJsonData("res://data/game1.json")
-	instructionSet = InstructionSet.new()
 
+# Load the game data from the json file.
 func loadJsonData(fileName):
 	var file = FileAccess.open(fileName, FileAccess.READ)
 	var json_string = file.get_as_text()
@@ -27,40 +27,77 @@ func loadJsonData(fileName):
 		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 		assert(false, "JSON Parse Error")
 
-func process_action(action):
-	if action == instructionSet.HELP:
+func process_action(action, object = null):
+	# React to the help command.
+	if action == InstructionSet.HELP:
 		var helpText = ''
 		helpText += 'Look: Look around the room you are in.' + "\n"
 		helpText += 'Use north, south, east, west to more in that direction.' + "\n"
 		return helpText
 
-	if action == instructionSet.RESET:
+	# React to the reset command.
+	if action == InstructionSet.RESET:
 		currentRoom = null
 		return process_action(null)
 
-	# get current room
+	# React to the quick command.
+	if action == InstructionSet.QUIT:
+		Engine.get_main_loop().quit()
+		return 'Bye...'
+
+	# If the current room is empty then start with the initial room.
 	if currentRoom == null:
 		currentRoom = 'room1'
 		return render_room(rooms[currentRoom])
 
-	if action == instructionSet.LOOK:
+	# React to the look command.
+	if action == InstructionSet.LOOK:
 		return render_room(rooms[currentRoom])
 
-	# is direction/action valid?
-	if rooms[currentRoom]['exits'].has(action) == false:
-		return 'direction not valid!' + "\n"
+	if action == InstructionSet.GET and object != null:
+		for item in rooms[currentRoom]['items']:
+			if rooms[currentRoom]['items'][item]['name'] == object:
+				inventory[item] = rooms[currentRoom]['items'][item]
+				return 'You get the ' + object;
+		return 'There is no ' + object + "\n"
 
-	# if it is then change the state
+	if action == InstructionSet.OPEN and object != null:
+		var direction = object.get_slice(' ', 0)
+		var exit = object.get_slice(' ', 1)
+		for item in rooms[currentRoom]['exits']:
+			if item == direction:
+				for inventoryItem in inventory:
+					if rooms[currentRoom]['exits'][item]['key'] == inventoryItem:
+						rooms[currentRoom]['exits'][item]['locked'] = false
+						return 'You open the ' + direction + ' ' + exit
+		return 'You do not have the key for this door'
+
+	# If we get to this point we have a direction or action of some kind.
+	# Is direction/action valid?
+	if rooms[currentRoom]['exits'].has(action) == false:
+		return 'Direction is not valid!' + "\n"
+
+	# is a direction then change the state to the new room.
 	if rooms[currentRoom]['exits'][action].has('destination') == true:
+		if rooms[currentRoom]['exits'][action]['locked'] == true:
+			return "The door is locked!\n"
 		currentRoom = rooms[currentRoom]['exits'][action]['destination']
 
 	# return the text of the new room
 	return render_room(rooms[currentRoom])
 
+# Render a given room, including the exits.
 func render_room(room):
 	var renderedRoom = ''
-	renderedRoom += room['intro'] + "\n\n"
-	renderedRoom += "Possible exists are:\n"
+	renderedRoom += room['intro'] + "\n"
+
+	if room.has('items') == true:
+		for item in room['items']:
+			if inventory.has(item) == false:
+				renderedRoom += room['items'][item]['description'] + "\n"
+
+	renderedRoom += "\nPossible exists are:\n"
+
 	for exit in room['exits']:
 		renderedRoom += "- " + room['exits'][exit]['description'] + "\n"
 	return renderedRoom

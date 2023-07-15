@@ -2,28 +2,64 @@ class_name TextParser
 
 var InstructionSet = load("res://src/InstructionSet.gd")
 
+var object = null
+
+# Parse a given input string into an instruction.
 func parse(text):
-	var instructionSet = InstructionSet.new()
 	match text:
 		'go north':
-			return instructionSet.NORTH
+			return InstructionSet.NORTH
 		'north':
-			return instructionSet.NORTH
+			return InstructionSet.NORTH
 		'go south':
-			return instructionSet.SOUTH
+			return InstructionSet.SOUTH
 		'south':
-			return instructionSet.SOUTH
+			return InstructionSet.SOUTH
 		'go east':
-			return instructionSet.EAST
+			return InstructionSet.EAST
 		'east':
-			return instructionSet.EAST
+			return InstructionSet.EAST
 		'go west':
-			return instructionSet.WEST
+			return InstructionSet.WEST
 		'west':
-			return instructionSet.WEST
+			return InstructionSet.WEST
+
 		'look':
-			return instructionSet.LOOK
+			return InstructionSet.LOOK
 		'help':
-			return instructionSet.HELP
+			return InstructionSet.HELP
+		'help me':
+			return InstructionSet.HELP
+
 		'reset':
-			return instructionSet.RESET
+			return InstructionSet.RESET
+		'quit':
+			return InstructionSet.QUIT
+		'exit':
+			return InstructionSet.QUIT
+
+	if text.begins_with('get '):
+		object = text.get_slice(' ', 1)
+		return InstructionSet.GET
+	if text.begins_with('drop '):
+		object = text.get_slice(' ', 1)
+		return InstructionSet.DROP
+
+	if text.begins_with('open '):
+		var regex = RegEx.new()
+		regex.compile("open\\s(?<object>.*(\\s.*)?)")
+		var results = regex.search(text);
+		object = results.get_string('object')
+		return InstructionSet.OPEN
+
+	if text.begins_with('close '):
+		var regex = RegEx.new()
+		regex.compile("close\\s(?<object>.*(\\s.*)?)")
+		var results = regex.search(text);
+		object = results.get_string('object')
+		return InstructionSet.CLOSE
+
+	return InstructionSet.NOT_FOUND
+
+func get_object():
+	return object
