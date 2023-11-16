@@ -31,8 +31,12 @@ func process_action(action, object = null):
 	# React to the help command.
 	if action == InstructionSet.HELP:
 		var helpText = ''
-		helpText += 'Look: Look around the room you are in.' + "\n"
-		helpText += 'Use north, south, east, west to more in that direction.' + "\n"
+		helpText += 'Instructions:' + "\n"
+		helpText += '- Use "look" around the room you are in.' + "\n"
+		helpText += '- Use "north", "south", "east", "west" to move in that direction.' + "\n"
+		helpText += '- Use "open" or "close" to interact with doors.' + "\n"
+		helpText += '- Use "get <object" or "drop <object" pick up or put down objects.' + "\n"
+		helpText += '- Use "reset" to reset the game, or "exit" to quit.' + "\n"
 		return helpText
 
 	# React to the reset command.
@@ -70,16 +74,18 @@ func process_action(action, object = null):
 					if rooms[currentRoom]['exits'][item]['key'] == inventoryItem:
 						rooms[currentRoom]['exits'][item]['locked'] = false
 						return 'You open the ' + direction + ' ' + exit
+			else:
+				return 'What direction do you want to open?'
 		return 'You do not have the key for this door'
 
 	# If we get to this point we have a direction or action of some kind.
 	# Is direction/action valid?
 	if rooms[currentRoom]['exits'].has(action) == false:
-		return 'Direction is not valid!' + "\n"
+		return 'I don\'t understand!' + "\n"
 
 	# is a direction then change the state to the new room.
 	if rooms[currentRoom]['exits'][action].has('destination') == true:
-		if rooms[currentRoom]['exits'][action]['locked'] == true:
+		if rooms[currentRoom]['exits'][action].has('locked') and rooms[currentRoom]['exits'][action]['locked'] == true:
 			return "The door is locked!\n"
 		currentRoom = rooms[currentRoom]['exits'][action]['destination']
 

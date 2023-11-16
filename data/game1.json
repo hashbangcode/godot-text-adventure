@@ -1,6 +1,6 @@
 {
 	"room1": {
-		"intro" : "You are in a room with a fireplace with a roaring dire and a old oak table. It is otherwise empty.",
+		"intro" : "You are in a room with a fireplace with a roaring fire and a old oak table. It is otherwise empty.",
 		"items" : {
 			"key123" : {
 				"description" : "You see a key on the oak table.",
