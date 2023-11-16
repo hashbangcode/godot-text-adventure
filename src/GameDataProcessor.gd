@@ -78,7 +78,7 @@ func process_action(action, object = null):
 				return 'What direction do you want to open?'
 		return 'You do not have the key for this door'
 
-	# If we get to this point we have a direction or action of some kind.
+	# If we get to this point we have a direction of some kind.
 	# Is direction/action valid?
 	if rooms[currentRoom]['exits'].has(action) == false:
 		return 'I don\'t understand!' + "\n"
