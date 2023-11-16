@@ -15,10 +15,6 @@ func _ready():
 	gameText.append_text(game_data_processor.process_action('') + "\n")
 	self.grab_focus()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func _on_text_submitted(new_text):
 	if (new_text.is_empty()):
 		return
