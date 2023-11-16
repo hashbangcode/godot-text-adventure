@@ -44,7 +44,7 @@ func process_action(action, object = null):
 		currentRoom = null
 		return process_action(null)
 
-	# React to the quick command.
+	# React to the quit command.
 	if action == InstructionSet.QUIT:
 		Engine.get_main_loop().quit()
 		return 'Bye...'
