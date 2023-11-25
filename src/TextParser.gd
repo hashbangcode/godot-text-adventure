@@ -39,23 +39,30 @@ func parse(text):
 			return InstructionSet.QUIT
 
 	if text.begins_with('get '):
-		object = text.get_slice(' ', 1)
+		var regex = RegEx.new()
+		regex.compile("get\\s(?<object>.*(\\s.*)?)")
+		var results = regex.search(text)
+		object = results.get_string('object')
 		return InstructionSet.GET
+
 	if text.begins_with('drop '):
-		object = text.get_slice(' ', 1)
+		var regex = RegEx.new()
+		regex.compile("drop\\s(?<object>.*(\\s.*)?)")
+		var results = regex.search(text)
+		object = results.get_string('object')
 		return InstructionSet.DROP
 
 	if text.begins_with('open '):
 		var regex = RegEx.new()
 		regex.compile("open\\s(?<object>.*(\\s.*)?)")
-		var results = regex.search(text);
+		var results = regex.search(text)
 		object = results.get_string('object')
 		return InstructionSet.OPEN
 
 	if text.begins_with('close '):
 		var regex = RegEx.new()
 		regex.compile("close\\s(?<object>.*(\\s.*)?)")
-		var results = regex.search(text);
+		var results = regex.search(text)
 		object = results.get_string('object')
 		return InstructionSet.CLOSE
 
