@@ -36,7 +36,7 @@
 		"exits" : {
 			"west" : {
 				"description" : "West, back the way you came.",
-				"destination" : "room1"
+				"destination" : "room2"
 			}
 		}
 	}
