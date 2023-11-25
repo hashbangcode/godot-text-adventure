@@ -45,13 +45,6 @@ func parse(text):
 		object = results.get_string('object')
 		return InstructionSet.GET
 
-	if text.begins_with('drop '):
-		var regex = RegEx.new()
-		regex.compile("drop\\s(?<object>.*(\\s.*)?)")
-		var results = regex.search(text)
-		object = results.get_string('object')
-		return InstructionSet.DROP
-
 	if text.begins_with('open '):
 		var regex = RegEx.new()
 		regex.compile("open\\s(?<object>.*(\\s.*)?)")

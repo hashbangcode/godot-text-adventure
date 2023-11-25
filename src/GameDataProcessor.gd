@@ -35,7 +35,7 @@ func process_action(action, object = null):
 		helpText += '- Use "look" around the room you are in.' + "\n"
 		helpText += '- Use "north", "south", "east", "west" to move in that direction.' + "\n"
 		helpText += '- Use "open" or "close" to interact with doors.' + "\n"
-		helpText += '- Use "get <object" or "drop <object" pick up or put down objects.' + "\n"
+		helpText += '- Use "get <object>" pick up objects.' + "\n"
 		helpText += '- Use "reset" to reset the game, or "exit" to quit.' + "\n"
 		return helpText
 

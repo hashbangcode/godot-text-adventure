@@ -20,8 +20,6 @@ const WEST = "west"
 
 const GET = "get"
 
-const DROP = "drop"
-
 const OPEN = "open"
 
 const CLOSE = "close"
