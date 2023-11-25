@@ -20,7 +20,7 @@ func _on_text_submitted(new_text):
 		return
 
 	# clear the text of the text area.
-	set_text('')
+	self.set_text('')
 
 	# parse text
 	var instruction = text_parser.parse(new_text)
