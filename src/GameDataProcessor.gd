@@ -42,6 +42,8 @@ func process_action(action, object = null):
 	# React to the reset command.
 	if action == InstructionSet.RESET:
 		currentRoom = null
+		inventory = {}
+		rooms = loadJsonData("res://data/game1.json")
 		return process_action(null)
 
 	# React to the quit command.
@@ -73,7 +75,7 @@ func process_action(action, object = null):
 				for inventoryItem in inventory:
 					if rooms[currentRoom]['exits'][item]['key'] == inventoryItem:
 						rooms[currentRoom]['exits'][item]['locked'] = false
-						return 'You open the ' + direction + ' ' + exit
+						return 'You open the ' + direction + ' door'
 			else:
 				return 'What direction do you want to open?'
 		return 'You do not have the key for this door'
